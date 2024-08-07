@@ -14,8 +14,8 @@
     <properties>
         <application.class>io.github.jonaskahn.AppKt</application.class>
 
-        <jooby.version>3.2.6</jooby.version>
-        <kotlin.version>2.0.0</kotlin.version>
+        <jooby.version>3.2.8</jooby.version>
+        <kotlin.version>2.0.10</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -23,7 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <swagger.version>2.2.22</swagger.version>
-        <mariadb.version>3.4.0</mariadb.version>
+        <mariadb.version>3.4.1</mariadb.version>
         <flyway.version>9.22.3</flyway.version>
         <bcrypt-version>0.10.2</bcrypt-version>
         <tsid.version>2.1.2</tsid.version>
@@ -33,7 +33,6 @@
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <jakarta.el.version>5.0.1</jakarta.el.version>
         <expressly.version>5.0.0</expressly.version>
-        <jooby-jackson.version>3.2.6</jooby-jackson.version>
         <jackson.version>2.17.2</jackson.version>
     </properties>
 
@@ -129,7 +128,6 @@
         <dependency>
             <groupId>io.jooby</groupId>
             <artifactId>jooby-jackson</artifactId>
-            <version>${jooby-jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -205,8 +203,10 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>${project.basedir}${file.separator}src${file.separator}main${file.separator}kotlin</sourceDirectory>
-        <testSourceDirectory>${project.basedir}${file.separator}src${file.separator}test${file.separator}kotlin</testSourceDirectory>
+        <sourceDirectory>${project.basedir}${file.separator}src${file.separator}main${file.separator}kotlin
+        </sourceDirectory>
+        <testSourceDirectory>${project.basedir}${file.separator}src${file.separator}test${file.separator}kotlin
+        </testSourceDirectory>
         <resources>
             <resource>
                 <directory>conf</directory>
