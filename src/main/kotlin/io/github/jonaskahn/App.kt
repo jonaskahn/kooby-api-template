@@ -176,16 +176,14 @@ private fun getStatusCodeAndMessage(ex: Throwable): Pair<StatusCode, Response<*>
 
 
 fun Kooby.routes() {
-    mount("/api", RouteDefinition())
+    mount("/api", object : Kooby({
+        install(JacksonModule(JacksonMapper.INSTANCE))
+        mvc(HealthController::class.java)
+        mvc(AuthController::class.java)
+        mvc(UserController::class.java)
+        mvc(TestRoleController::class.java)
+    }) {})
 }
-
-private class RouteDefinition : Kooby({
-    install(JacksonModule(JacksonMapper.INSTANCE))
-    mvc(HealthController::class.java)
-    mvc(AuthController::class.java)
-    mvc(UserController::class.java)
-    mvc(TestRoleController::class.java)
-})
 
 fun Kooby.web() {
     val www = AssetSource.create(this.classLoader, "static")
@@ -193,29 +191,6 @@ fun Kooby.web() {
         "/*", AssetHandler(www)
             .setMaxAge(Duration.ofDays(365))
     )
-
-    get("/uikit/*") {
-        ctx.forward("/")
-    }
-    get("/blocks/*") {
-        ctx.forward("/")
-    }
-    get("/utilities/*") {
-        ctx.forward("/")
-    }
-    get("/page/*") {
-        ctx.forward("/")
-    }
-    get("/landing") {
-        ctx.forward("/")
-    }
-    get("/documentation") {
-        ctx.forward("/")
-    }
-    get("/auth/*") {
-        ctx.forward("/")
-    }
-
 }
 
 fun main(args: Array<String>) {
