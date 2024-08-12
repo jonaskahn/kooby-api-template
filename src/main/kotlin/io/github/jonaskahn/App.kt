@@ -82,13 +82,17 @@ fun Kooby.decorate() {
         LanguageContextHolder.setLanguage(acceptLanguage)
     }
     after {
-        ctx.setDefaultResponseType(MediaType.json)
         if (failure == null) {
+            ctx.setDefaultResponseType(MediaType.json)
             handleSuccess()
-        } else {
-            log.error("Something went wrong, detail", failure as Throwable)
-            handleFailure()
         }
+    }
+    error { ctx, cause, _ ->
+        log.error("Something went wrong, detail", cause)
+        val (calculatedStatusCode, data) = getStatusCodeAndMessage(cause)
+        ctx.setDefaultResponseType(MediaType.json)
+        ctx.responseCode = calculatedStatusCode
+        ctx.render(data)
     }
 }
 
@@ -108,13 +112,6 @@ private fun AfterContext.handleSuccess() {
         }
     }
     return
-}
-
-private fun AfterContext.handleFailure() {
-    val ex = failure as Throwable
-    val (statusCode, data) = getStatusCodeAndMessage(ex)
-    ctx.responseCode = statusCode
-    ctx.render(data)
 }
 
 
