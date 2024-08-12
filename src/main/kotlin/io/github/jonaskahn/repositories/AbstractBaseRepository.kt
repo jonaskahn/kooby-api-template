@@ -1,50 +1,12 @@
-package io.github.jonaskahn.repositories.impl
+package io.github.jonaskahn.repositories
 
 import io.github.jonaskahn.assistant.query.JpaQueryExecutor
-import io.github.jonaskahn.entities.BaseEntity
-import io.github.jonaskahn.middlewares.context.UserContextHolder
-import io.github.jonaskahn.repositories.BaseRepository
 import jakarta.persistence.EntityManager
 import org.slf4j.LoggerFactory
 
-abstract class BaseRepositoryImpl<Entity : BaseEntity, ID>(
-    open val entityManager: EntityManager,
-    private val entity: Class<Entity>
-) : BaseRepository<Entity, ID> {
-
-    override fun create(e: Entity): Entity {
-        e.createdBy = getCurrentLoggedUserId()
-        e.updatedBy = getCurrentLoggedUserId()
-        entityManager.persist(e)
-        return e
-    }
-
-    override fun update(e: Entity): Entity {
-        e.updatedBy = getCurrentLoggedUserId()
-        try {
-            entityManager.merge(e)
-        } catch (e: Exception) {
-            logger.warn("Cannot do merge entity $e, try to persist instead")
-            entityManager.persist(e)
-        }
-        return e
-    }
-
-    private fun getCurrentLoggedUserId(): Long {
-        return UserContextHolder.getCurrentUserId()
-    }
-
-    override fun delete(e: Entity) {
-        entityManager.remove(e)
-    }
-
-    override fun deleteById(id: ID) {
-        findById(id)?.let { entityManager.remove(it) }
-    }
-
-    override fun findById(id: ID): Entity? {
-        return entityManager.find(entity, id)
-    }
+abstract class AbstractBaseRepository(
+    open val entityManager: EntityManager
+) {
 
     protected fun <T> search(
         useNativeQuery: Boolean,
