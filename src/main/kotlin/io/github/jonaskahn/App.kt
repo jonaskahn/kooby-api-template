@@ -185,7 +185,7 @@ fun Kooby.routes() {
 fun Kooby.web() {
     val www = AssetSource.create(this.classLoader, "static")
     assets(
-        "/*", AssetHandler(www)
+        "/*", AssetHandler("index.html", www)
             .setMaxAge(Duration.ofDays(365))
     )
 }
