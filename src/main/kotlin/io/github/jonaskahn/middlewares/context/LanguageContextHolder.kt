@@ -1,16 +1,14 @@
 package io.github.jonaskahn.middlewares.context
 
-class LanguageContextHolder {
-    companion object {
-        private val threadLocalData: ThreadLocal<String?> = ThreadLocal()
+object LanguageContextHolder {
 
-        fun getLanguage(): String {
-            return threadLocalData.get() ?: "en"
-        }
+    private val threadLocalData: ThreadLocal<String?> = ThreadLocal()
 
-        fun setLanguage(language: String?) {
-            threadLocalData.set(language)
-        }
+    fun getLanguage(): String {
+        return threadLocalData.get() ?: "en"
     }
 
+    fun setLanguage(language: String?) {
+        threadLocalData.set(language)
+    }
 }
