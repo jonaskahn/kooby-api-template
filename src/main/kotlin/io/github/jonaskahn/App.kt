@@ -30,6 +30,8 @@ import io.jooby.kt.runApp
 import io.jooby.netty.NettyServer
 import io.jooby.pac4j.Pac4jModule
 import jakarta.persistence.NoResultException
+import org.pac4j.core.authorization.authorizer.CheckHttpMethodAuthorizer
+import org.pac4j.core.context.HttpConstants
 import org.pac4j.http.client.direct.HeaderClient
 import org.pac4j.jwt.config.signature.SecretSignatureConfiguration
 import redis.clients.jedis.JedisPooled
@@ -56,17 +58,24 @@ fun Kooby.setting() {
     install(HibernateModule().scan("io.github.jonaskahn.entities"))
 
     install(
-        Pac4jModule()
-            .client("/api/secure/*") {
-                HeaderClient(
-                    "Authorization",
-                    "Bearer ",
-                    AdvancedJwtAuthenticator(
-                        require(JedisPooled::class.java),
-                        SecretSignatureConfiguration(it.getString("jwt.salt"))
-                    )
+        Pac4jModule().client(
+            "/api/secure/*",
+            CheckHttpMethodAuthorizer(
+                HttpConstants.HTTP_METHOD.GET,
+                HttpConstants.HTTP_METHOD.PUT,
+                HttpConstants.HTTP_METHOD.DELETE,
+                HttpConstants.HTTP_METHOD.PATCH
+            )
+        ) {
+            HeaderClient(
+                "Authorization",
+                "Bearer ",
+                AdvancedJwtAuthenticator(
+                    require(JedisPooled::class.java),
+                    SecretSignatureConfiguration(it.getString("jwt.salt"))
                 )
-            }
+            )
+        }
     )
 
     use(TransactionalRequest().enabledByDefault(true))
