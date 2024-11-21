@@ -14,7 +14,7 @@
     <properties>
         <application.class>io.github.jonaskahn.AppKt</application.class>
 
-        <jooby.version>3.4.0</jooby.version>
+        <jooby.version>3.5.3</jooby.version>
         <kotlin.version>2.0.20</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <maven.compiler.source>21</maven.compiler.source>
@@ -23,7 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <swagger.version>2.2.22</swagger.version>
-        <mariadb.version>3.4.1</mariadb.version>
+        <mariadb.version>3.5.0</mariadb.version>
         <flyway.version>9.22.3</flyway.version>
         <bcrypt-version>0.10.2</bcrypt-version>
         <tsid.version>2.1.2</tsid.version>
@@ -32,7 +32,7 @@
         <redis.version>5.1.3</redis.version>
         <jakarta.el.version>5.0.1</jakarta.el.version>
         <expressly.version>5.0.0</expressly.version>
-        <jackson.version>2.17.2</jackson.version>
+        <jackson.version>2.18.1</jackson.version>
     </properties>
 
     <dependencies>
